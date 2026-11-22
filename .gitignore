@@ -1,0 +1,5 @@
+target/
+dist/
+config.local.toml
+__pycache__/
+.DS_Store

@@ -1,0 +1,54 @@
+[package]
+name = "miaomiaoce-c5"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+firmware = []
+
+[[bin]]
+name = "miaomiaoce-c5"
+path = "src/main.rs"
+required-features = ["firmware"]
+test = false
+bench = false
+
+[dependencies]
+aes = { version = "0.8.4", default-features = false }
+ccm = { version = "0.5.0", default-features = false }
+heapless = "0.8.0"
+
+[target.'cfg(target_os = "none")'.dependencies]
+embedded-tls = { git = "https://github.com/embassy-rs/embedded-tls", rev = "6487c62bb084c33361822022e21836ddfd48388f", default-features = false, features = ["webpki", "rsa", "p256", "x25519"] }
+embassy-crypto-rustcrypto = { git = "https://github.com/embassy-rs/embassy", rev = "822a76ea91f2c0885c6eb0c65fe91181e31133e1", default-features = false, features = ["embassy-crypto-sha256", "embassy-crypto-hmac-sha256", "embassy-crypto-aes128-gcm", "embassy-crypto-p256-ecdsa", "embassy-crypto-x25519"] }
+embedded-io-async = "0.7"
+esp-hal = { version = "=1.2.2", features = ["esp32c5", "unstable"] }
+esp-radio = { version = "=1.0.0-beta.1", features = ["esp32c5", "wifi", "ble", "coex", "unstable"] }
+esp-rtos = { version = "=0.4.0", features = ["esp32c5", "embassy", "esp-radio"] }
+esp-alloc = "0.11.0"
+esp-println = { version = "0.18.0", default-features = false, features = ["critical-section", "jtag-serial", "esp32c5", "log-04"] }
+esp-backtrace = { version = "0.20.0", features = ["esp32c5", "println", "panic-handler"] }
+esp-storage = { version = "0.10.0", features = ["esp32c5"] }
+esp-bootloader-esp-idf = { version = "0.6.0", features = ["esp32c5"] }
+embassy-executor = "0.10"
+embassy-net = { version = "0.9.1", features = ["dhcpv4", "dns", "tcp", "udp", "medium-ethernet", "proto-ipv4"] }
+embassy-time = "0.5.1"
+embassy-sync = "0.8"
+embassy-futures = "0.1.2"
+static_cell = "2.1.1"
+
+spin = { version = "0.9", default-features = false, features = ["portable_atomic"] }
+portable-atomic = "1"
+
+[build-dependencies]
+rustls-pki-types = { version = "1.16", default-features = false, features = ["alloc"] }
+
+[profile.release]
+opt-level = "s"
+lto = "fat"
+codegen-units = 1
+debug = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 2

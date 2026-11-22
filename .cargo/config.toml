@@ -1,0 +1,5 @@
+[target.riscv32imac-unknown-none-elf]
+runner = "espflash flash --monitor --chip esp32c5 --partition-table firmware/partitions.csv"
+
+[env]
+ESP_HAL_CONFIG_ENSURE_MAIN_STACK_MINIMUM = "32768"
